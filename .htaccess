@@ -1,0 +1,25 @@
+# ============================================================
+# Atlas Kiosk — OPEN for now (no login required)
+# Keeps crawlers out + basic hardening, but anyone with
+# the URL can use it. If staff password proves painful,
+# this is the safe fallback.
+# To re-lock later, uncomment the Auth block below.
+# ============================================================
+
+# ---- 1) Booth gate: DISABLED for now ----
+# AuthType Basic
+# AuthName "Booth Staff Only"
+# AuthUserFile /home/atlasveterans/.htpasswd-kiosk
+# Require valid-user
+
+# ---- 2) Hardening (no directory listing, block dotfiles) ----
+Options -Indexes
+<FilesMatch "^\.ht">
+    Require all denied
+</FilesMatch>
+
+# ---- 3) Tell crawlers to stay out (defense-in-depth;
+#      primary protection is the meta tag + PHP header) ----
+<IfModule mod_headers.c>
+    Header set X-Robots-Tag "noindex, nofollow, noarchive"
+</IfModule>
