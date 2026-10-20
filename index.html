@@ -2500,7 +2500,7 @@
                 day: '1',
                 dayFr: '1',
                 month: 'MAR',
-                monthFr: 'MARS',
+                monthFr: 'MAR',
                 title: 'Part 2: Group consultation in prolonged exposure therapy for PTSD (English) — 2027',
                 titleFr: "Partie 2 – Consultations de groupe sur la thérapie d'exposition prolongée pour le TSPT (anglais) – 2027",
                 meta: 'Group consultation · Online',
@@ -2509,6 +2509,22 @@
                 descFr: `Séances de consultation de groupe hebdomadaires qui suivent la partie « atelier » de la formation en deux parties sur la thérapie d'exposition prolongée pour le trouble de stress post-traumatique (TSPT). Pour être admissibles, les participants doivent suivre l'atelier de quatre jours sur la thérapie d'exposition prolongée pour le TSPT.`,
                 url: 'https://atlasveterans.ca/community/training/part-2-group-consultation-in-prolonged-exposure-therapy-for-ptsd-english-2027/',
                 urlFr: 'https://atlasveterans.ca/fr/communaute/formation/partie-2-consultations-de-groupe-sur-la-therapie-dexposition-prolongee-pour-le-tspt-anglais-2027/'
+            },
+            {
+                category: ['live', 'self'],
+                year: '2026–27',
+                day: '27 / 30',
+                dayFr: '27 / 30',
+                month: 'OCT / MAR',
+                monthFr: 'OCT / MAR',
+                title: 'Veteran and Family research training program',
+                titleFr: 'Programme de formation en recherche pour les vétérans et leur famille',
+                meta: 'Workshop series and online course · Online · For Veterans and Veteran Family members',
+                metaFr: `Série d'ateliers et cours en ligne · Participation virtuelle · Pour les vétérans et les membres de leur famille`,
+                desc: `A free research training program including a workshop series and a module-based course to build Veterans' and Family members' skills and comfort with research.`,
+                descFr: `Un programme de formation en recherche gratuit incluant une série d'ateliers et un cours par modules pour aider les vétérans et les membres de leur famille à développer leurs compétences et leur aisance avec la recherche.`,
+                url: 'https://atlasveterans.ca/community/training/veteran-and-family-research-training-program/',
+                urlFr: 'https://atlasveterans.ca/fr/communaute/formation/programme-de-formation-en-recherche-pour-les-veterans-et-leur-famille/'
             },
             {
                 category: 'self',
@@ -2560,11 +2576,11 @@
             },
             {
                 category: 'connect',
-                year: '2026',
-                day: '10',
-                dayFr: '10',
-                month: 'SEP',
-                monthFr: 'SEP',
+                year: '2026–27',
+                day: '10 / 10',
+                dayFr: '10 / 10',
+                month: 'SEP / JUN',
+                monthFr: 'SEP / JUN',
                 title: 'Evidence-based therapy for Veterans and Families community of practice',
                 titleFr: 'Communauté de pratique sur les thérapies fondées sur des données probantes pour les vétérans et leur famille',
                 meta: 'Community of practice · Online',
@@ -2573,7 +2589,7 @@
                 descFr: `Met à la disposition des fournisseurs de services de partout au Canada un espace pour tisser des liens ainsi que pour échanger et tirer parti des connaissances afin d'améliorer les soins offerts aux vétérans et à leur famille qui sont aux prises avec un trouble de stress post-traumatique et des troubles de santé mentale connexes.`,
                 url: 'https://atlasveterans.ca/community/training/evidence-based-therapy-for-veterans-and-families-community-of-practice/',
                 urlFr: 'https://atlasveterans.ca/fr/communaute/formation/communaute-de-pratique-sur-les-therapies-fondees-sur-des-donnees-probantes-pour-les-veterans-et-leur-famille/'
-            }
+            },
         ];
 
 const EVENTS_DATA = [
@@ -3755,11 +3771,29 @@ const EVENTS_DATA = [
         // Shared date badge (year / day / month) used by Training AND Events
         // so both sections always render identical date boxes.
         function dateBadgeHTML(year, day, month) {
+            const buildSide = (d, m) => `
+                <div class="text-center">
+                    <span class="block text-lg font-extrabold leading-none">${d}</span>
+                    <span class="block text-xs font-bold uppercase leading-tight">${m}</span>
+                </div>`;
+            const isRange = String(day).includes(' / ') || String(month).includes(' / ');
+            if (!isRange) {
+                return `
+                        <div class="bg-brandNavy text-white rounded-xl w-[86px] h-[72px] shrink-0 px-1 py-2 flex flex-col items-center justify-center shadow text-center">
+                            <span class="block text-xs font-bold text-teal-300 uppercase leading-tight">${year}</span>
+                            ${buildSide(day, month)}
+                        </div>`;
+            }
+            const [d1, d2] = String(day).split(' / ');
+            const [m1, m2] = String(month).split(' / ');
             return `
                         <div class="bg-brandNavy text-white rounded-xl w-[86px] h-[72px] shrink-0 px-1 py-2 flex flex-col items-center justify-center shadow text-center">
                             <span class="block text-xs font-bold text-teal-300 uppercase leading-tight">${year}</span>
-                            <span class="block text-lg font-extrabold leading-none my-0.5">${day}</span>
-                            <span class="block text-xs font-bold uppercase leading-tight">${month}</span>
+                            <div class="flex items-stretch gap-2 mt-0.5">
+                                ${buildSide(d1, m1)}
+                                <div class="w-0.5 bg-teal-400 self-stretch"></div>
+                                ${buildSide(d2, m2)}
+                            </div>
                         </div>`;
         }
 
@@ -3770,7 +3804,10 @@ const EVENTS_DATA = [
             const tagKey = { live: 'trainingTagLive', self: 'trainingTagSelf', connect: 'trainingTagConnect' };
             container.innerHTML = '';
             TRAINING_DATA.forEach(t => {
-                const tag = T[tagKey[t.category]];
+                const categories = Array.isArray(t.category) ? t.category : [t.category];
+                const tagsHtml = categories.map(cat => `
+                    <span class="inline-block bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-amber-200 uppercase tracking-wide mb-1.5">${T[tagKey[cat]]}</span>
+                `).join('');
                 const title = fr ? t.titleFr : t.title;
                 const desc = fr ? t.descFr : t.desc;
                 const day = fr ? (t.dayFr || t.day) : t.day;
@@ -3784,7 +3821,7 @@ const EVENTS_DATA = [
                     <div class="bg-white rounded-2xl p-5 border shadow-sm min-w-full sm:min-w-[480px] flex flex-col sm:flex-row items-start sm:items-center gap-4 ${isSelected ? 'card-selected' : 'border-slate-200'}">
                         ${dateBadgeHTML(year, day, month)}
                         <div class="flex-1 min-w-0">
-                            <span class="inline-block bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-amber-200 uppercase tracking-wide mb-1.5">${tag}</span>
+                            ${tagsHtml}
                             <h3 class="font-bold text-slate-800 text-base leading-snug">${title}</h3>
                             <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-circle-info text-brandTeal mr-1"></i>${meta}</p>
                             <p class="text-xs text-slate-600 mt-1.5 leading-relaxed line-clamp-2">${desc}</p>

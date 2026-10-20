@@ -118,7 +118,7 @@ Located at `const EVENTS_DATA = [` (search for it).
 ## 5. Gotchas
 
 - Use template literals (backticks `` ` ``) for `desc`/`descFr`/`metaFr` if they contain apostrophes or special chars, OR escape single quotes.
-- The `month`/`monthFr` values are displayed verbatim in the date badge — use the uppercase 3-letter French abbreviations used elsewhere (`OCT`, `DÉC`, `FÉV`, `MARS`, etc.).
+- The `month`/`monthFr` values are displayed verbatim in the date badge — use the uppercase 3-letter French abbreviations used elsewhere (`OCT`, `DÉC`, `FÉV`, `MAR`, `JUN`, etc.).
 - The `day` field can be empty `''` for ongoing/self-paced items (see `Introduction to trauma-exposed professionals: TExP1`).
 - `urlFr` should point to the French version of the same page on atlasveterans.ca.
 - After editing, open `index.html` in a browser and switch languages to verify both EN and FR render correctly.
