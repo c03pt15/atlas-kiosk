@@ -14,6 +14,9 @@ if ($providedKey !== STATS_KEY) {
     exit;
 }
 
+date_default_timezone_set('America/Toronto');
+$displayTz = new DateTimeZone('America/Toronto');
+
 $logDir = __DIR__ . '/logs';
 $sendFiles = glob($logDir . '/send-resources-*.jsonl');
 $subFiles = glob($logDir . '/subscribe-newsletter-*.jsonl');
@@ -30,6 +33,10 @@ $sort = $_GET['sort'] ?? 'timestamp';
 $order = $_GET['order'] ?? 'desc';
 $logType = $_GET['type'] ?? 'all'; // all, send, subscribe
 
+// Eastern-time day boundaries for filtering
+$fromBoundary = $dateFrom ? (new DateTime($dateFrom . ' 00:00:00', $displayTz))->getTimestamp() : null;
+$toBoundary   = $dateTo ? (new DateTime($dateTo . ' 23:59:59', $displayTz))->getTimestamp() : null;
+
 $entries = [];
 foreach ($files as $file) {
     $fileType = str_contains($file, 'subscribe-newsletter') ? 'subscribe' : 'send';
@@ -42,9 +49,10 @@ foreach ($files as $file) {
         if (!$entry) continue;
         $entry['_type'] = $fileType;
 
-        // Filter by date range
-        if ($dateFrom && $entry['timestamp'] < $dateFrom . 'T00:00:00+00:00') continue;
-        if ($dateTo && $entry['timestamp'] > $dateTo . 'T23:59:59+00:00') continue;
+        // Filter by date range (Eastern days)
+        $entryTs = strtotime($entry['timestamp']);
+        if ($fromBoundary !== null && $entryTs < $fromBoundary) continue;
+        if ($toBoundary !== null && $entryTs > $toBoundary) continue;
 
         // Filter by email
         if ($searchEmail && stripos($entry['email'] ?? '', $searchEmail) === false) continue;
@@ -83,13 +91,14 @@ foreach ($entries as $e) {
     $uniqueEmails[$e['email']] = true;
     $byLang[$e['lang'] ?? 'en']++;
     $byStatus[$e['status'] ?? 'unknown'] = ($byStatus[$e['status'] ?? 'unknown'] ?? 0) + 1;
-    $date = substr($e['timestamp'], 0, 10);
+    $date = (new DateTime($e['timestamp']))->setTimezone($displayTz)->format('Y-m-d');
     $byDate[$date] = ($byDate[$date] ?? 0) + 1;
 }
 krsort($byDate);
 
 function fmtDate($iso) {
-    return date('M j, Y H:i', strtotime($iso));
+    global $displayTz;
+    return (new DateTime($iso))->setTimezone($displayTz)->format('M j, Y H:i T');
 }
 function sortLink($col, $label) {
     global $sort, $order, $dateFrom, $dateTo, $searchEmail, $limit, $logType;
@@ -298,7 +307,7 @@ function sortLink($col, $label) {
                                             <div class="mb-2"><strong>Tags:</strong> <?= htmlspecialchars(implode(', ', $entry['tags'] ?? [])) ?></div>
                                             <div class="mb-2"><strong>Status:</strong> <?= htmlspecialchars($status) ?></div>
                                         <?php endif; ?>
-                                        <div class="mb-2"><strong>Timestamp:</strong> <?= $entry['timestamp'] ?></div>
+                                        <div class="mb-2"><strong>Timestamp:</strong> <?= fmtDate($entry['timestamp']) ?> <span class="text-slate-400">(<?= htmlspecialchars($entry['timestamp']) ?> UTC)</span></div>
                                         <div class="mb-2"><strong>IP:</strong> <?= htmlspecialchars($entry['ip'] ?? '-') ?></div>
                                         <div class="mb-2"><strong>User Agent:</strong> <?= htmlspecialchars(substr($entry['user_agent'] ?? '-', 0, 120)) ?></div>
                                         <?php if ($isSend): ?>
