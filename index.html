@@ -484,7 +484,7 @@
                         <input type="checkbox" id="deliveryNewsletter" class="mt-0.5 w-5 h-5 shrink-0 accent-teal-700">
                         <span>
                             <span class="block text-sm font-semibold text-slate-700" data-i18n="joinMailingList">Join our mailing list</span>
-                            <span class="block text-xs text-slate-500 mt-0.5" data-i18n="joinMailingListSub">You'll receive a confirmation email to complete your subscription.</span>
+                            <span class="block text-xs text-slate-500 mt-0.5" data-i18n="joinMailingListSub">You'll receive our latest news, research updates and upcoming events.</span>
                         </span>
                     </label>
 
@@ -2688,8 +2688,8 @@ const EVENTS_DATA = [
                 sending: 'Sending…',
                 sendError: 'Could not send the email. Check your connection and try again.',
                 joinMailingList: 'Join our mailing list',
-                joinMailingListSub: "You'll receive a confirmation email to complete your subscription.",
-                joinedMailingList: "You've also joined our mailing list — please check your inbox for a confirmation email.",
+                joinMailingListSub: "You'll receive our latest news, research updates and upcoming events.",
+                joinedMailingList: "You've also joined our mailing list. Thank you!",
                 joinFailed: "We couldn't add you to the mailing list — you can join anytime from the Mailing List tab.",
                 includeTraining: 'Also include trainings',
                 includeEvents: 'Also include events',
@@ -2710,8 +2710,8 @@ const EVENTS_DATA = [
                 userRole: 'I am a...',
                 subscribeBtn: 'Subscribe to newsletter',
                 subscribing: 'Subscribing…',
-                subscribeSuccess: 'Thank! You have been subscribed to our newsletter.',
-                subscribeExists: 'This email address is already subscribed. Thank you!',
+                subscribeSuccess: 'Thank you! You have been subscribed to our newsletter.',
+                subscribeExists: 'Heads up — this email address is already on our mailing list.',
                 subscribeError: 'Could not complete the subscription. Check your connection and try again.',
                 iframeNote: 'Opens the Atlas Institute mailing list signup page in a new tab.',
                 mailingOpened: 'We\'ve opened the mailing list signup page for you — please complete your subscription there.',
@@ -2777,8 +2777,8 @@ const EVENTS_DATA = [
                 sending: 'Envoi en cours…',
                 sendError: 'Impossible d’envoyer le courriel. Vérifiez votre connexion et réessayez.',
                 joinMailingList: "M'abonner à l'infolettre",
-                joinMailingListSub: "Vous recevrez un courriel de confirmation pour compléter votre inscription.",
-                joinedMailingList: "Vous êtes aussi inscrit à notre infolettre — vérifiez votre boîte courriel pour confirmer votre inscription.",
+                joinMailingListSub: "Vous recevrez nos dernières nouvelles, recherches et événements à venir.",
+                joinedMailingList: "Vous êtes aussi inscrit à notre infolettre. Merci!",
                 joinFailed: "Impossible de vous inscrire à l'infolettre — vous pouvez réessayer depuis l'onglet Infolettre.",
                 includeTraining: 'Inclure aussi les formations',
                 includeEvents: 'Inclure aussi les événements',
@@ -2800,7 +2800,7 @@ const EVENTS_DATA = [
                 subscribeBtn: 'S’abonner à l’infolettre',
                 subscribing: 'Inscription en cours…',
                 subscribeSuccess: 'Merci! Vous êtes maintenant inscrit à notre infolettre.',
-                subscribeExists: 'Cette adresse courriel est déjà inscrite. Merci!',
+                subscribeExists: 'Attention — cette adresse courriel est déjà inscrite à notre infolettre.',
                 subscribeError: 'Impossible de compléter l’inscription. Vérifiez votre connexion et réessayez.',
                 iframeNote: 'Ouvre la page d\'inscription à l\'infolettre de l\'Institut Atlas dans un nouvel onglet.',
                 mailingOpened: 'Nous avons ouvert la page d\'inscription à l\'infolettre pour vous — veuillez compléter votre inscription là-bas.',
@@ -3560,18 +3560,23 @@ const EVENTS_DATA = [
                     : `We've emailed ${selectedResourceIds.size} resource link(s) directly to ${email}.`;
 
                 const mcEl = document.getElementById('successNewsletterMsg');
-                mcEl.classList.remove('hidden',
-                    'text-emerald-700', 'bg-emerald-50', 'border', 'border-emerald-200',
-                    'text-rose-700', 'bg-rose-50', 'border', 'border-rose-200');
-                if (mc === 'added' || mc === 'exists') {
+                mcEl.classList.remove('hidden', 'border',
+                    'text-xs', 'text-sm', 'font-semibold',
+                    'text-emerald-700', 'bg-emerald-50', 'border-emerald-200',
+                    'text-rose-700', 'bg-rose-50', 'border-rose-200',
+                    'text-amber-800', 'bg-amber-50', 'border-amber-200');
+                if (mc === 'added') {
                     mcEl.innerText = TRANSLATIONS[currentLang].joinedMailingList;
-                    mcEl.classList.add('text-emerald-700', 'bg-emerald-50', 'border', 'border-emerald-200');
+                    mcEl.classList.add('border', 'text-xs', 'text-emerald-700', 'bg-emerald-50', 'border-emerald-200');
+                } else if (mc === 'exists') {
+                    mcEl.innerText = TRANSLATIONS[currentLang].subscribeExists;
+                    mcEl.classList.add('border', 'text-sm', 'font-semibold', 'text-amber-800', 'bg-amber-50', 'border-amber-200');
                 } else if (mc === 'opened') {
                     mcEl.innerText = TRANSLATIONS[currentLang].mailingOpened;
-                    mcEl.classList.add('text-emerald-700', 'bg-emerald-50', 'border', 'border-emerald-200');
+                    mcEl.classList.add('border', 'text-xs', 'text-emerald-700', 'bg-emerald-50', 'border-emerald-200');
                 } else if (mc === 'failed') {
                     mcEl.innerText = TRANSLATIONS[currentLang].joinFailed;
-                    mcEl.classList.add('text-rose-700', 'bg-rose-50', 'border', 'border-rose-200');
+                    mcEl.classList.add('border', 'text-xs', 'text-rose-700', 'bg-rose-50', 'border-rose-200');
                 } else {
                     mcEl.classList.add('hidden');
                 }
@@ -3642,7 +3647,12 @@ const EVENTS_DATA = [
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ email, fname, lname, org: '', position: '', audience: [], lang: currentLang })
                             });
-                            mc = 'added';
+                            const mcData = await mcRes.json().catch(() => ({}));
+                            if (mcRes.ok && mcData && mcData.ok) {
+                                mc = mcData.status === 'already_subscribed' ? 'exists' : 'added';
+                            } else {
+                                mc = 'failed';
+                            }
                         } catch (e) {
                             mc = 'failed';
                         }
@@ -3692,10 +3702,15 @@ const EVENTS_DATA = [
                 btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>${TRANSLATIONS[currentLang].subscribeBtn}</span>`;
 
                 if (res.ok && data && data.ok) {
+                    successEl.classList.remove('text-xs', 'text-sm', 'font-semibold',
+                        'text-emerald-700', 'bg-emerald-50', 'border-emerald-200',
+                        'text-amber-800', 'bg-amber-50', 'border-amber-200');
                     if (data.status === 'already_subscribed') {
-                        successEl.textContent = data.message || (currentLang === 'fr' ? 'Cette adresse est déjà inscrite.' : 'This email is already subscribed.');
+                        successEl.textContent = TRANSLATIONS[currentLang].subscribeExists;
+                        successEl.classList.add('text-sm', 'font-semibold', 'text-amber-800', 'bg-amber-50', 'border-amber-200');
                     } else {
-                        successEl.textContent = currentLang === 'fr' ? 'Inscription réussie ! Vérifiez votre courriel.' : 'Subscribed! Please check your email.';
+                        successEl.textContent = TRANSLATIONS[currentLang].subscribeSuccess;
+                        successEl.classList.add('text-xs', 'text-emerald-700', 'bg-emerald-50', 'border-emerald-200');
                     }
                     successEl.classList.remove('hidden');
                     document.getElementById('mailingForm').reset();
