@@ -218,24 +218,6 @@ $recipientDomain = strtolower(substr(strrchr($email, '@'), 1) ?: '');
     FILE_APPEND | LOCK_EX
 );
 
-// ---- Detailed usage log (email, name, resources, timestamp) ----
-$logDir = __DIR__ . '/logs';
-if (!is_dir($logDir)) {
-    @mkdir($logDir, 0755, true);
-}
-$logFile = $logDir . '/send-resources-' . gmdate('Y-m') . '.jsonl';
-$logEntry = [
-    'timestamp' => gmdate('c'),
-    'email' => $email,
-    'name' => $name,
-    'lang' => $lang,
-    'items_count' => count($clean),
-    'items' => array_map(fn($it) => ['title' => $it['title'], 'url' => $it['url']], $clean),
-    'ip' => $ip,
-    'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
-];
-@file_put_contents($logFile, json_encode($logEntry, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND | LOCK_EX);
-
 // ---- Build the message ----
 $greet   = $name !== '' ? ($isFr ? "Bonjour {$name}," : "Hello {$name},")
                         : ($isFr ? 'Bonjour,' : 'Hello,');
@@ -258,7 +240,7 @@ foreach ($clean as $i => $it) {
         . htmlspecialchars($it['title'], ENT_QUOTES, 'UTF-8')
         . '</a><br><span style="color:#64748b;font-size:12px;">'
         . htmlspecialchars($it['url'], ENT_QUOTES, 'UTF-8')
-        . '</span></li>';
+        . '</span></li>' . "\r\n";
 }
 $text .= "— {$signoff}\n{$siteUrl}";
 
@@ -274,21 +256,27 @@ $boundary = '=_kiosk_' . md5(uniqid((string) mt_rand(), true));
 $from     = KIOSK_FROM_NAME . ' <' . KIOSK_FROM_EMAIL . '>';
 $headers  = "From: {$from}\r\n";
 $headers .= "Reply-To: {$from}\r\n";
+$headers .= "Date: " . date(DATE_RFC2822) . "\r\n";
+$headers .= "Message-ID: <kiosk-" . md5(uniqid((string) mt_rand(), true)) . "@atlasveterans.ca>\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: multipart/alternative; boundary=\"{$boundary}\"\r\n";
 $headers .= "X-Mailer: Atlas-Kiosk/1.0\r\n";
 
+$textEncoded = quoted_printable_encode($text);
+$htmlEncoded = quoted_printable_encode($html);
+
 $body  = "--{$boundary}\r\n";
 $body .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
-$body .= $text . "\r\n\r\n";
+$body .= "Content-Transfer-Encoding: quoted-printable\r\n\r\n";
+$body .= $textEncoded . "\r\n\r\n";
 $body .= "--{$boundary}\r\n";
 $body .= "Content-Type: text/html; charset=UTF-8\r\n";
-$body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
-$body .= $html . "\r\n\r\n";
+$body .= "Content-Transfer-Encoding: quoted-printable\r\n\r\n";
+$body .= $htmlEncoded . "\r\n\r\n";
 $body .= "--{$boundary}--";
 
 // -f envelope sender improves deliverability
+error_clear_last();
 $sent = @mail(
     $email,
     '=?UTF-8?B?' . base64_encode($subject) . '?=',
@@ -296,6 +284,27 @@ $sent = @mail(
     $headers,
     '-f' . KIOSK_FROM_EMAIL
 );
+$mailError = $sent ? null : (error_get_last()['message'] ?? 'mail() returned false');
+
+// ---- Detailed usage log (email, name, resources, timestamp) ----
+$logDir = __DIR__ . '/logs';
+if (!is_dir($logDir)) {
+    @mkdir($logDir, 0755, true);
+}
+$logFile = $logDir . '/send-resources-' . gmdate('Y-m') . '.jsonl';
+$logEntry = [
+    'timestamp' => gmdate('c'),
+    'email' => $email,
+    'name' => $name,
+    'lang' => $lang,
+    'items_count' => count($clean),
+    'items' => array_map(fn($it) => ['title' => $it['title'], 'url' => $it['url']], $clean),
+    'ip' => $ip,
+    'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+    'sent' => (bool) $sent,
+    'mail_error' => $mailError,
+];
+@file_put_contents($logFile, json_encode($logEntry, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND | LOCK_EX);
 
 if (!$sent) {
     kiosk_fail($isFr ? 'L’envoi a échoué. Veuillez réessayer.'
