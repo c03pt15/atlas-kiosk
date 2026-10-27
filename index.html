@@ -265,6 +265,27 @@
                 </div>
             </div>
 
+            <!-- Audience Filter Pills -->
+            <div class="mb-6 bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+                <div id="audiencesHeaderRow" class="flex items-center justify-between mb-2">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-users text-brandTeal"></i>
+                        <span data-i18n="filterByAudience">Filter by audience</span>
+                    </label>
+                    <button id="audiencesToggleBtn" onclick="toggleAudiencesExpanded()" class="text-xs font-semibold text-slate-500 hover:text-brandTeal flex items-center gap-1 cursor-pointer">
+                        <span id="audiencesToggleLabel">Hide audiences</span>
+                        <i id="audiencesToggleIcon" class="fa-solid fa-chevron-up text-[10px]"></i>
+                    </button>
+                </div>
+                <div id="audiencePillsWrapper" style="display:grid; grid-template-rows: 1fr; transition: grid-template-rows 0.35s ease;">
+                    <div style="overflow:hidden; min-height:0;">
+                        <div id="audiencePillsContainer" class="flex flex-wrap gap-1.5">
+                            <!-- Audiences injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Topic Filter Pills -->
             <div class="mb-6 bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
                 <div id="topicsHeaderRow" class="flex items-center justify-between mb-2">
@@ -556,8 +577,8 @@
                 titleFr: `L’art du possible : Travailler ensemble à travers les systèmes pour éliminer les obstacles aux soins en santé mentale pour les vétérans et leurs familles en milieu rural ou éloigné`,
                 topic: `Access & delivery of care`,
                 topicFr: `Accès et prestation des soins`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members'],
+                audiencesFr: ['Vétérans', 'Membres de famille'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -577,8 +598,8 @@
                 titleFr: `Facteurs influant sur l’accès aux soins de santé mentale pour les vétérans et leur famille`,
                 topic: `Access & delivery of care`,
                 topicFr: `Accès et prestation des soins`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -598,8 +619,8 @@
                 titleFr: `Sommaire — Réflexions sur l’expérience des vétérans et de leur famille en relation avec le cannabis et la santé mentale`,
                 topic: `Cannabis`,
                 topicFr: `Cannabis`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -619,8 +640,8 @@
                 titleFr: `Rapport sommaire — Réflexions sur l’expérience des vétérans et de leur famille en relation avec le cannabis et la santé mentale`,
                 topic: `Cannabis`,
                 topicFr: `Cannabis`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -640,8 +661,8 @@
                 titleFr: `Les chroniques de la TrousseMentale`,
                 topic: `Children of Veterans`,
                 topicFr: `Enfants de vétérans`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Family members', 'Children and youth'],
+                audiencesFr: ['Membres de famille', 'Enfants et adolescents'],
                 format: 'Webcomic',
                 formatFr: 'Bande dessinée',
                 icon: 'fa-book-open-reader',
@@ -661,8 +682,8 @@
                 titleFr: `Journal TrousseMentale`,
                 topic: `Children of Veterans`,
                 topicFr: `Enfants de vétérans`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Family members', 'Children and youth'],
+                audiencesFr: ['Membres de famille', 'Enfants et adolescents'],
                 format: 'Journal',
                 formatFr: 'Journal',
                 icon: 'fa-book',
@@ -682,8 +703,8 @@
                 titleFr: `TrousseMentale — Sujet 1 : Tout sur la santé mentale`,
                 topic: `Children of Veterans`,
                 topicFr: `Enfants de vétérans`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Family members', 'Children and youth'],
+                audiencesFr: ['Membres de famille', 'Enfants et adolescents'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -703,8 +724,8 @@
                 titleFr: `TrousseMentale — Sujet 2 : Les blessures de stress post-traumatique et toi`,
                 topic: `Children of Veterans`,
                 topicFr: `Enfants de vétérans`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Family members', 'Children and youth'],
+                audiencesFr: ['Membres de famille', 'Enfants et adolescents'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -724,8 +745,8 @@
                 titleFr: `TrousseMentale — Sujet 3 : Crée ta propre TrousseMentale`,
                 topic: `Children of Veterans`,
                 topicFr: `Enfants de vétérans`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Family members', 'Children and youth'],
+                audiencesFr: ['Membres de famille', 'Enfants et adolescents'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -745,8 +766,8 @@
                 titleFr: `TrousseMentale — Répertoire des services`,
                 topic: `Children of Veterans`,
                 topicFr: `Enfants de vétérans`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Family members', 'Children and youth'],
+                audiencesFr: ['Membres de famille', 'Enfants et adolescents'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -766,8 +787,8 @@
                 titleFr: `Être parent avec une blessure de stress post-traumatique : conseils pratiques à l’intention des parents des familles de vétérans`,
                 topic: `Children of Veterans`,
                 topicFr: `Enfants de vétérans`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Family members'],
+                audiencesFr: ['Membres de famille'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -787,8 +808,8 @@
                 titleFr: `Être parent avec une blessure de stress post-traumatique : guide sur les conversations avec les enfants des familles des vétérans`,
                 topic: `Children of Veterans`,
                 topicFr: `Enfants de vétérans`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Family members'],
+                audiencesFr: ['Membres de famille'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -808,8 +829,8 @@
                 titleFr: `Rapport sommaire — Table ronde sur la santé et le bien-être des vétérans francophones et de leurs familles`,
                 topic: `Francophone Veterans & Families`,
                 topicFr: `Vétérans francophones et leurs familles`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -829,8 +850,8 @@
                 titleFr: `Reconnaître et gérer les relations malsaines : Guide de soutien à l’intention des familles des vétérans`,
                 topic: `Intimate partner violence`,
                 topicFr: `Violence conjugale`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -850,8 +871,8 @@
                 titleFr: `Soutien aux enfants exposés à la violence conjugale : Guide de discussion pratique à l’intention des familles des vétérans`,
                 topic: `Intimate partner violence`,
                 topicFr: `Violence conjugale`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Children and youth'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Enfants et adolescents'],
                 format: 'Conversation Guide',
                 formatFr: 'Guide de conversation',
                 icon: 'fa-comments',
@@ -871,8 +892,8 @@
                 titleFr: `Services pour les personnes victimes de violence conjugale`,
                 topic: `Intimate partner violence`,
                 topicFr: `Violence conjugale`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -892,8 +913,8 @@
                 titleFr: `Résumé des preuves pertinentes : La violence conjugale au Canada parmi les civils, les militaires et les vétérans`,
                 topic: `Intimate partner violence`,
                 topicFr: `Violence conjugale`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -913,8 +934,8 @@
                 titleFr: `Quelle est l’incidence de la violence conjugale dans les milieux de militaires et de vétérans?`,
                 topic: `Intimate partner violence`,
                 topicFr: `Violence conjugale`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -934,8 +955,8 @@
                 titleFr: `Violence conjugale (VC) chez les militaires et les vétérans : Un examen systématique des sondages basés sur une population et des études de dépistage collectif`,
                 topic: `Intimate partner violence`,
                 topicFr: `Violence conjugale`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -955,8 +976,8 @@
                 titleFr: `Interventions et services de santé en matière de violence conjugale auprès des militaires et des vétérans : examen du cadre de travail et de la portée`,
                 topic: `Intimate partner violence`,
                 topicFr: `Violence conjugale`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -976,8 +997,8 @@
                 titleFr: `Fiche d’information : l’inconduite sexuelle et les traumatismes sexuels liés au service militaire`,
                 topic: `Military sexual trauma`,
                 topicFr: `Traumatisme sexuel lié au service militaire`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Fact Sheet',
                 formatFr: 'Fiche d’information',
                 icon: 'fa-file-lines',
@@ -997,8 +1018,8 @@
                 titleFr: `Se remettre d’un traumatisme sexuel lié au service militaire : Composer avec le traumatisme et en guérir`,
                 topic: `Military sexual trauma`,
                 topicFr: `Traumatisme sexuel lié au service militaire`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1018,8 +1039,8 @@
                 titleFr: `Se remettre d’un traumatisme sexuel lié au service militaire : Le rôle du soutien par les pairs`,
                 topic: `Military sexual trauma`,
                 topicFr: `Traumatisme sexuel lié au service militaire`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1039,8 +1060,8 @@
                 titleFr: `Le traumatisme sexuel lié au service militaire : Guide pour les proches et les membres de la famille`,
                 topic: `Military sexual trauma`,
                 topicFr: `Traumatisme sexuel lié au service militaire`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Family members'],
+                audiencesFr: ['Membres de famille'],
                 format: 'Primer',
                 formatFr: 'Guide d’introduction',
                 icon: 'fa-graduation-cap',
@@ -1060,8 +1081,8 @@
                 titleFr: `Le traumatisme sexuel lié au service militaire : Guide de conversation pour parler à votre proche qui en subit les effets`,
                 topic: `Military sexual trauma`,
                 topicFr: `Traumatisme sexuel lié au service militaire`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Conversation Guide',
                 formatFr: 'Guide de conversation',
                 icon: 'fa-comments',
@@ -1081,8 +1102,8 @@
                 titleFr: `Le traumatisme sexuel lié au service militaire : Bref guide pour parler à vos amis ou aux membres de votre famille`,
                 topic: `Military sexual trauma`,
                 topicFr: `Traumatisme sexuel lié au service militaire`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -1102,8 +1123,8 @@
                 titleFr: `Le traumatisme sexuel lié au service militaire : Prendre soin de soi-même pour les membres de la famille`,
                 topic: `Military sexual trauma`,
                 topicFr: `Traumatisme sexuel lié au service militaire`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1123,8 +1144,8 @@
                 titleFr: `Le traumatisme sexuel lié au service militaire : Guide d’introduction à l’intention des fournisseurs de soins de santé canadiens`,
                 topic: `Military sexual trauma`,
                 topicFr: `Traumatisme sexuel lié au service militaire`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers'],
+                audiencesFr: ['Fournisseurs de services'],
                 format: 'Primer',
                 formatFr: 'Guide d’introduction',
                 icon: 'fa-graduation-cap',
@@ -1144,8 +1165,8 @@
                 titleFr: `Blessures invisibles : Conseils cliniques pour prendre en charge des personnes éprouvées par un traumatisme sexuel lié au service militaire`,
                 topic: `Military sexual trauma`,
                 topicFr: `Traumatisme sexuel lié au service militaire`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers'],
+                audiencesFr: ['Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1165,8 +1186,8 @@
                 titleFr: `Un guide sur les préjudices moraux pour les vétérans et leur famille`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -1186,8 +1207,8 @@
                 titleFr: `Préjudices moraux : de quoi s’agit-il et que peuvent faire les dirigeants pour y remédier?`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers', 'Researchers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1207,8 +1228,8 @@
                 titleFr: `Prendre des mesures pour prévenir les préjudices moraux : quelques conseils pour les dirigeants`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers', 'Researchers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1228,8 +1249,8 @@
                 titleFr: `Un guide pour engager la discussion aider les dirigeants à amorcer le dialogue au sujet des préjudices moraux`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers', 'Researchers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs'],
                 format: 'Conversation Guide',
                 formatFr: 'Guide de conversation',
                 icon: 'fa-comments',
@@ -1249,8 +1270,8 @@
                 titleFr: `Une communication efficace en période de stress et d’incertitude`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers', 'Researchers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1270,8 +1291,8 @@
                 titleFr: `Prêtez l’oreille pour mieux comprendre connaître les besoins de votre équipe et les facteurs de stress auxquels elle est exposée`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Service providers', 'Researchers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1291,8 +1312,8 @@
                 titleFr: `Manifestez de la gratitude envers votre équipe`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers', 'Researchers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1312,8 +1333,8 @@
                 titleFr: `Rapport de recherche — Préjudices moraux chez les membres du personnel de la sécurité publique au Canada`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Service providers', 'Researchers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -1333,8 +1354,8 @@
                 titleFr: `Sommaire — Préjudices moraux chez les membres du personnel de la sécurité publique au Canada`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Service providers', 'Researchers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -1354,8 +1375,8 @@
                 titleFr: `Résumé en langage clair — Préjudices moraux chez les membres du personnel de la sécurité publique au Canada`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Service providers', 'Researchers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -1375,8 +1396,8 @@
                 titleFr: `Utiliser des études de cas pour comprendre les répercussions du préjudice moral sur le personnel de la sécurité publique`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers'],
+                audiencesFr: ['Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1396,8 +1417,8 @@
                 titleFr: `Comprendre le lien entre le stress minoritaire et les préjudices moraux`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1417,8 +1438,8 @@
                 titleFr: `Validation de l’échelle des résultats en matière de préjudice moral en français`,
                 topic: `Moral injury`,
                 topicFr: `Préjudices moraux`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1438,8 +1459,8 @@
                 titleFr: `Rétroaction neurologique : Un nouveau traitement prometteur pour le trouble de stress post-traumatique (TSPT)`,
                 topic: `Neurofeedback`,
                 topicFr: `Rétroaction neurologique`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1459,8 +1480,8 @@
                 titleFr: `Essai clinique démontrant que l’entraînement en rétroaction neurologique aide à rééquilibrer les ondes cérébrales et à réguler les émotions des personnes atteintes de TSPT`,
                 topic: `Neurofeedback`,
                 topicFr: `Rétroaction neurologique`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1480,8 +1501,8 @@
                 titleFr: `Traitement du trouble de stress post-traumatique par l’entraînement du cerveau : Exploration de l’approche optimale`,
                 topic: `Neurofeedback`,
                 topicFr: `Rétroaction neurologique`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Veterans', 'Service providers', 'Researchers'],
+                audiencesFr: ['Vétérans', 'Fournisseurs de services', 'Chercheurs'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1501,8 +1522,8 @@
                 titleFr: `Lignes directrices en matière de soutien par les pairs pour les vétérans, les militaires, le personnel de la sécurité publique et leur famille`,
                 topic: `Peer support`,
                 topicFr: `Soutien par les pairs`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -1522,8 +1543,8 @@
                 titleFr: `Que sont les blessures de stress post-traumatique?`,
                 topic: `Posttraumatic stress injury`,
                 topicFr: `Blessures de stress post-traumatique`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1543,8 +1564,8 @@
                 titleFr: `Composer avec les blessures de stress post-traumatique`,
                 topic: `Posttraumatic stress injury`,
                 topicFr: `Blessures de stress post-traumatique`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1564,8 +1585,8 @@
                 titleFr: `Soutien par les pairs et blessures de stress post-traumatique`,
                 topic: `Posttraumatic stress injury`,
                 topicFr: `Blessures de stress post-traumatique`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1585,8 +1606,8 @@
                 titleFr: `Pour les familles : Subvenir à ses besoins lorsqu’un être cher est aux prises avec une blessure de stress post-traumatique`,
                 topic: `Posttraumatic stress injury`,
                 topicFr: `Blessures de stress post-traumatique`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1606,8 +1627,8 @@
                 titleFr: `Que faire lorsque la colère devient problématique : Renseignements pour les vétérans`,
                 topic: `Problematic anger`,
                 topicFr: `Colère problématique`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1627,8 +1648,8 @@
                 titleFr: `Que faire lorsque la colère devient problématique : Renseignements pour les familles et les proches de vétérans`,
                 topic: `Problematic anger`,
                 topicFr: `Colère problématique`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1648,8 +1669,8 @@
                 titleFr: `Guide pour soutenir les vétérans qui éprouvent une colère problématique`,
                 topic: `Problematic anger`,
                 topicFr: `Colère problématique`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers'],
+                audiencesFr: ['Fournisseurs de services'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -1669,8 +1690,8 @@
                 titleFr: `Gérer des émotions difficiles — Exercice d’ancrage : Décompte 5-4-3-2-1`,
                 topic: `Problematic anger`,
                 topicFr: `Colère problématique`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Exercise',
                 formatFr: 'Exercice',
                 icon: 'fa-wind',
@@ -1690,8 +1711,8 @@
                 titleFr: `Gérer des émotions difficiles — Respiration carrée`,
                 topic: `Problematic anger`,
                 topicFr: `Colère problématique`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Exercise',
                 formatFr: 'Exercice',
                 icon: 'fa-wind',
@@ -1711,8 +1732,8 @@
                 titleFr: `Analyse des politiques publiques`,
                 topic: `Public policy`,
                 topicFr: `Politiques publiques`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -1732,8 +1753,8 @@
                 titleFr: `Processus de mobilisation pour les politiques publiques`,
                 topic: `Public policy`,
                 topicFr: `Politiques publiques`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Veterans', 'Family members', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Décideurs politiques'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1753,8 +1774,8 @@
                 titleFr: `Rapport sommaire — La vie après le service à la gendarmerie royale du Canada : Expériences de santé mentale pour les vétérans et leur famille`,
                 topic: `RCMP Veterans & Families`,
                 topicFr: `Vétérans de la GRC et leur famille`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -1774,8 +1795,8 @@
                 titleFr: `Résumé analytique — La vie après le service à la gendarmerie royale du Canada : Expériences de santé mentale pour les vétérans et leur famille`,
                 topic: `RCMP Veterans & Families`,
                 topicFr: `Vétérans de la GRC et leur famille`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -1795,8 +1816,8 @@
                 titleFr: `Guide à l’intention des vétérans de la gendarmerie royale du Canada : Blessures de stress opérationnel`,
                 topic: `RCMP Veterans & Families`,
                 topicFr: `Vétérans de la GRC et leur famille`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -1816,8 +1837,8 @@
                 titleFr: `Guide à l’intention des familles des vétérans de la gendarmerie royale du Canada : Blessures de stress opérationnel`,
                 topic: `RCMP Veterans & Families`,
                 topicFr: `Vétérans de la GRC et leur famille`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -1837,8 +1858,8 @@
                 titleFr: `Lacunes en matière de recherche et besoins de connaissances liés à la santé mentale des membres du personnel de la sécurité publique et de leur famille`,
                 topic: `Research`,
                 topicFr: `Recherche`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -1858,8 +1879,8 @@
                 titleFr: `Lacunes en matière de recherche et besoins de connaissances liés à la santé mentale des vétérans et de leur famille`,
                 topic: `Research`,
                 topicFr: `Recherche`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -1879,8 +1900,8 @@
                 titleFr: `Les vétérans des forces armées et de la GRC et la prévention du suicide — Une trousse d’outils contenant des informations et des conseils pratiques`,
                 topic: `Suicide prevention`,
                 topicFr: `Prévention du suicide`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Fournisseurs de services'],
                 format: 'Toolkit',
                 formatFr: 'Trousse d’outils',
                 icon: 'fa-toolbox',
@@ -1900,8 +1921,8 @@
                 titleFr: `Prendre soin de soi et des autres — une trousse d’outils contenant des informations et des conseils pratiques sur la prévention du suicide pour les familles de vétérans`,
                 topic: `Suicide prevention`,
                 topicFr: `Prévention du suicide`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Family members', 'Service providers'],
+                audiencesFr: ['Membres de famille', 'Fournisseurs de services'],
                 format: 'Toolkit',
                 formatFr: 'Trousse d’outils',
                 icon: 'fa-toolbox',
@@ -1921,8 +1942,8 @@
                 titleFr: `Résumé graphique — Vous vous inquiétez pour quelqu’un?`,
                 topic: `Suicide prevention`,
                 topicFr: `Prévention du suicide`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Infographic',
                 formatFr: 'Infographie',
                 icon: 'fa-chart-simple',
@@ -1942,8 +1963,8 @@
                 titleFr: `Carte de format portefeuille — Vous vous inquiétez pour quelqu’un?`,
                 topic: `Suicide prevention`,
                 topicFr: `Prévention du suicide`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Wallet Card',
                 formatFr: 'Carte-portefeuille',
                 icon: 'fa-id-card',
@@ -1963,8 +1984,8 @@
                 titleFr: `La vie après le service militaire : Comprendre le rôle de la transition dans la santé mentale à long terme`,
                 topic: `Transition to post-service life`,
                 topicFr: `Transition vers la vie après le service`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Service providers', 'Researchers', 'Policy makers', 'Children and youth'],
+                audiencesFr: ['Vétérans', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques', 'Enfants et adolescents'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -1984,8 +2005,8 @@
                 titleFr: `Comprendre l’évolution du bien-être : Étude longitudinale sur les vétérans vieillissants`,
                 topic: `Transition to post-service life`,
                 topicFr: `Transition vers la vie après le service`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -2005,8 +2026,8 @@
                 titleFr: `Introduction aux traumatismes cranio-cérébraux`,
                 topic: `Traumatic brain injury`,
                 topicFr: `Traumatisme cranio-cérébral`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2026,8 +2047,8 @@
                 titleFr: `Outils et stratégies pour la vie quotidienne avec un traumatisme cranio-cérébral`,
                 topic: `Traumatic brain injury`,
                 topicFr: `Traumatisme cranio-cérébral`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2047,8 +2068,8 @@
                 titleFr: `Traumatisme cranio-cérébral et trouble de stress post-traumatique`,
                 topic: `Traumatic brain injury`,
                 topicFr: `Traumatisme cranio-cérébral`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2068,8 +2089,8 @@
                 titleFr: `Renseignements sur les traumatismes cranio-cérébraux pour les personnes qui travaillent avec des vétérans`,
                 topic: `Traumatic brain injury`,
                 topicFr: `Traumatisme cranio-cérébral`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers'],
+                audiencesFr: ['Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2089,8 +2110,8 @@
                 titleFr: `L’incidence des traitements intégratifs en santé pour les vétérans et leur famille vivant avec un trouble de stress post-traumatique`,
                 topic: `Treatments`,
                 topicFr: `Traitements`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2110,8 +2131,8 @@
                 titleFr: `Composer avec la période des Fêtes`,
                 topic: `Veteran life`,
                 topicFr: `Vie des vétérans`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members'],
+                audiencesFr: ['Vétérans', 'Membres de famille'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2131,8 +2152,8 @@
                 titleFr: `Gérer le stress des fêtes`,
                 topic: `Veteran life`,
                 topicFr: `Vie des vétérans`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members'],
+                audiencesFr: ['Vétérans', 'Membres de famille'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2152,8 +2173,8 @@
                 titleFr: `Directives pour les médias concernant les reportages sur les vétérans, en particulier sur le TSPT et le suicide`,
                 topic: `Veterans in the media`,
                 topicFr: `Vétérans dans les médias`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Décideurs politiques'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -2173,8 +2194,8 @@
                 titleFr: `Limitations dans les activités, douleur et santé mentale parmi un échantillon de vétéranes canadiennes`,
                 topic: `Women Veterans`,
                 topicFr: `Vétéranes`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Service providers'],
+                audiencesFr: ['Vétérans', 'Fournisseurs de services'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2194,8 +2215,8 @@
                 titleFr: `Perspectives sur la transition et l’adaptation pour les vétéranes des forces armées canadiennes`,
                 topic: `Women Veterans`,
                 topicFr: `Vétéranes`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans'],
+                audiencesFr: ['Vétérans'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2215,8 +2236,8 @@
                 titleFr: `Comprendre les expériences de transition, la santé mentale et le bien être des vétéranes des Forces armées canadiennes`,
                 topic: `Women Veterans`,
                 topicFr: `Vétéranes`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans'],
+                audiencesFr: ['Vétérans'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2236,8 +2257,8 @@
                 titleFr: `À propos de l’Institut Atlas`,
                 topic: `About the Atlas Institute`,
                 topicFr: `À propos de l’Institut Atlas`,
-                audience: 'Veterans',
-                audienceFr: 'Vétérans',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2257,8 +2278,8 @@
                 titleFr: `Rapports d’impact`,
                 topic: `About the Atlas Institute`,
                 topicFr: `À propos de l’Institut Atlas`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Report',
                 formatFr: 'Rapport',
                 icon: 'fa-chart-pie',
@@ -2278,8 +2299,8 @@
                 titleFr: `Plan stratégique 2022–2027 : Une stratégie quinquennale pour le bien-être des vétérans et de leur famille`,
                 topic: `About the Atlas Institute`,
                 topicFr: `À propos de l’Institut Atlas`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Strategic Plan',
                 formatFr: 'Plan stratégique',
                 icon: 'fa-map',
@@ -2299,8 +2320,8 @@
                 titleFr: `Les murs du traitement : Pour les vétérans et leur famille`,
                 topic: `Conceptual framework`,
                 topicFr: `Cadre conceptuel`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Veterans', 'Family members'],
+                audiencesFr: ['Vétérans', 'Membres de famille'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2320,8 +2341,8 @@
                 titleFr: `Document technique — Cadre conceptuel destiné à guider la mise en application des meilleures pratiques actuelles et imminentes en matière de services et de soutien à l’intention des vétérans et de leur famille`,
                 topic: `Conceptual framework`,
                 topicFr: `Cadre conceptuel`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -2341,8 +2362,8 @@
                 titleFr: `Sommaire — Cadre conceptuel destiné à guider la mise en application des meilleures pratiques actuelles et imminentes en matière de services et de soutien à l’intention des vétérans et de leur famille`,
                 topic: `Conceptual framework`,
                 topicFr: `Cadre conceptuel`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -2362,8 +2383,8 @@
                 titleFr: `Synopsis en langage clair — Cadre conceptuel destiné à guider la mise en application des meilleures pratiques actuelles et imminentes en matière de services et de soutien à l’intention des vétérans et de leur famille`,
                 topic: `Conceptual framework`,
                 topicFr: `Cadre conceptuel`,
-                audience: 'Families',
-                audienceFr: 'Familles',
+                audiences: ['Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -2383,8 +2404,8 @@
                 titleFr: `Guide sur la mise en oeuvre des pratiques exemplaires et émergentes concernant l’accompagnement et les services destinés aux vétérans et à leur famille`,
                 topic: `Conceptual framework`,
                 topicFr: `Cadre conceptuel`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Guide',
                 formatFr: 'Guide',
                 icon: 'fa-compass',
@@ -2404,8 +2425,8 @@
                 titleFr: `Faire participer activement les vétérans et les membres de leur famille aux services et aux organismes de santé mentale : Faits et conseils pratiques pour la collaboration`,
                 topic: `Engagement`,
                 topicFr: `Mobilisation`,
-                audience: 'Service Providers',
-                audienceFr: 'Fournisseurs de services',
+                audiences: ['Veterans', 'Family members', 'Service providers', 'Researchers', 'Policy makers'],
+                audiencesFr: ['Vétérans', 'Membres de famille', 'Fournisseurs de services', 'Chercheurs', 'Décideurs politiques'],
                 format: 'Resource',
                 formatFr: 'Ressource',
                 icon: 'fa-file-lines',
@@ -2443,6 +2464,12 @@
         ];
         const TOPICS_FR = [
             `Accès et prestation des soins`, `Cannabis`, `Enfants de vétérans`, `Vétérans francophones et leurs familles`, `Violence conjugale`, `Traumatisme sexuel lié au service militaire`, `Préjudices moraux`, `Rétroaction neurologique`, `Soutien par les pairs`, `Blessures de stress post-traumatique`, `Colère problématique`, `Politiques publiques`, `Vétérans de la GRC et leur famille`, `Recherche`, `Prévention du suicide`, `Transition vers la vie après le service`, `Traumatisme cranio-cérébral`, `Traitements`, `Vie des vétérans`, `Vétérans dans les médias`, `Vétéranes`, `À propos de l’Institut Atlas`, `Cadre conceptuel`, `Mobilisation`
+        ];
+        const AUDIENCES = [
+            `Veterans`, `Family members`, `Service providers`, `Researchers`, `Policy makers`, `Children and youth`
+        ];
+        const AUDIENCES_FR = [
+            `Vétérans`, `Membres de famille`, `Fournisseurs de services`, `Chercheurs`, `Décideurs politiques`, `Enfants et adolescents`
         ];
 
         const TRAINING_DATA = [
@@ -2666,8 +2693,10 @@ const EVENTS_DATA = [
                 resSubtitle: 'Explore guides, clinical research reports, and practical toolkits from the Atlas Institute catalogue. Tap resources to select them and send them directly to your email.',
                 filterByCategory: 'Filter by resource type',
                 filterByTopic: 'Filter by topic',
+                filterByAudience: 'Filter by audience',
                 clearFilters: 'Clear all filters',
                 allTopics: 'All topics',
+                allAudiences: 'All audiences',
                 sortDefault: 'Default order',
                 sortAz: 'A → Z',
                 sortZa: 'Z → A',
@@ -2755,8 +2784,10 @@ const EVENTS_DATA = [
                 resSubtitle: 'Explorez des guides, rapports de recherche et trousses d’outils du catalogue de l’Institut Atlas. Sélectionnez vos ressources et recevez-les directement par courriel.',
                 filterByCategory: 'Filtrer par type de ressource',
                 filterByTopic: 'Filtrer par sujet',
+                filterByAudience: 'Filtrer par public',
                 clearFilters: 'Réinitialiser les filtres',
                 allTopics: 'Tous les sujets',
+                allAudiences: 'Tous les publics',
                 sortDefault: 'Ordre par défaut',
                 sortAz: 'A → Z',
                 sortZa: 'Z → A',
@@ -2839,8 +2870,10 @@ const EVENTS_DATA = [
         let currentLang = 'en';
         let selectedFormat = 'All';
         let selectedTopic = null;
+        let selectedAudience = null;
         let searchQuery = '';
         let topicsExpanded = true;
+        let audiencesExpanded = true;
         let typesExpanded = true;
         let sortOrder = 'default';
         let selectedResourceIds = new Set();
@@ -2955,6 +2988,7 @@ const EVENTS_DATA = [
         window.onload = function() {
             renderFilterTabs();
             renderTopicPills();
+            renderAudiencePills();
             renderResources();
             renderTraining();
             renderEvents();
@@ -3050,6 +3084,7 @@ const EVENTS_DATA = [
             updateUIStrings();
             renderFilterTabs();
             renderTopicPills();
+            renderAudiencePills();
             renderResources();
             renderTraining();
             renderEvents();
@@ -3085,6 +3120,7 @@ const EVENTS_DATA = [
             updateUIStrings();
             renderFilterTabs();
             renderTopicPills();
+            renderAudiencePills();
             renderResources();
             renderTraining();
             renderEvents();
@@ -3268,13 +3304,65 @@ const EVENTS_DATA = [
             applyTopicsExpandedState();
         }
 
+        function renderAudiencePills() {
+            const container = document.getElementById('audiencePillsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const allBtn = document.createElement('button');
+            allBtn.className = `px-3 py-1 rounded-xl text-xs font-semibold transition touch-action-btn ${
+                selectedAudience === null ? 'bg-slate-800 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`;
+            allBtn.innerText = TRANSLATIONS[currentLang].allAudiences;
+            allBtn.onclick = () => { selectedAudience = null; renderAudiencePills(); renderResources(); };
+            container.appendChild(allBtn);
+
+            AUDIENCES.forEach((audience, i) => {
+                const btn = document.createElement('button');
+                const isSelected = selectedAudience === audience;
+                btn.className = `px-3 py-1 rounded-xl text-xs font-semibold transition touch-action-btn whitespace-nowrap ${
+                    isSelected ? 'bg-slate-800 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`;
+                btn.innerText = currentLang === 'fr' ? AUDIENCES_FR[i] : audience;
+                btn.onclick = () => { selectedAudience = audience; renderAudiencePills(); renderResources(); };
+                container.appendChild(btn);
+            });
+
+            applyAudiencesExpandedState();
+        }
+
+        function applyAudiencesExpandedState() {
+            const wrapper = document.getElementById('audiencePillsWrapper');
+            const headerRow = document.getElementById('audiencesHeaderRow');
+            const label = document.getElementById('audiencesToggleLabel');
+            const icon = document.getElementById('audiencesToggleIcon');
+            if (!wrapper || !label || !icon) return;
+            if (headerRow) headerRow.classList.toggle('mb-2', audiencesExpanded);
+            if (audiencesExpanded) {
+                wrapper.style.gridTemplateRows = '1fr';
+                label.innerText = currentLang === 'fr' ? 'Masquer les publics' : 'Hide audiences';
+                icon.className = 'fa-solid fa-chevron-up text-[10px] transition-transform duration-300';
+            } else {
+                wrapper.style.gridTemplateRows = '0fr';
+                label.innerText = currentLang === 'fr' ? 'Afficher les publics' : 'Show audiences';
+                icon.className = 'fa-solid fa-chevron-down text-[10px] transition-transform duration-300';
+            }
+        }
+
+        function toggleAudiencesExpanded() {
+            audiencesExpanded = !audiencesExpanded;
+            applyAudiencesExpandedState();
+        }
+
         function clearAllFilters() {
             selectedFormat = 'All';
             selectedTopic = null;
+            selectedAudience = null;
             searchQuery = '';
             document.getElementById('searchInput').value = '';
             renderFilterTabs();
             renderTopicPills();
+            renderAudiencePills();
             renderResources();
         }
 
@@ -3292,17 +3380,20 @@ const EVENTS_DATA = [
             const filtered = CATALOG_RESOURCES.filter(res => {
                 const matchesFormat = selectedFormat === 'All' || res.format === selectedFormat;
                 const matchesTopic = !selectedTopic || res.topic.toLowerCase() === selectedTopic.toLowerCase();
+                const matchesAudience = !selectedAudience || (res.audiences || []).includes(selectedAudience);
                 
                 const titleText = (currentLang === 'fr' && res.titleFr) ? res.titleFr : res.title;
                 const blurbText = (currentLang === 'fr' && res.blurbFr) ? res.blurbFr : res.blurb;
+                const audienceText = [...(res.audiences || []), ...(res.audiencesFr || [])].join(' ').toLowerCase();
                 
                 const matchesSearch = !searchQuery || 
                     titleText.toLowerCase().includes(searchQuery) || 
                     blurbText.toLowerCase().includes(searchQuery) ||
                     res.topic.toLowerCase().includes(searchQuery) ||
-                    res.format.toLowerCase().includes(searchQuery);
+                    res.format.toLowerCase().includes(searchQuery) ||
+                    audienceText.includes(searchQuery);
 
-                return matchesFormat && matchesTopic && matchesSearch;
+                return matchesFormat && matchesTopic && matchesAudience && matchesSearch;
             });
 
             const getDisplayTitle = (res) => (currentLang === 'fr' && res.titleFr) ? res.titleFr : res.title;
@@ -3754,6 +3845,7 @@ const EVENTS_DATA = [
             selectedResourceIds.clear();
             selectedFormat = 'All';
             selectedTopic = null;
+            selectedAudience = null;
             searchQuery = '';
             document.getElementById('searchInput').value = '';
             document.getElementById('deliveryEmail').value = '';
@@ -3764,6 +3856,7 @@ const EVENTS_DATA = [
 
             renderFilterTabs();
             renderTopicPills();
+            renderAudiencePills();
             renderResources();
             updateSelectionBar();
             // Full reset for the next visitor: back to Step 1 (language
