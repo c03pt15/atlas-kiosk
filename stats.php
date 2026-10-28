@@ -100,6 +100,35 @@ function fmtDate($iso) {
     global $displayTz;
     return (new DateTime($iso))->setTimezone($displayTz)->format('M j, Y H:i T');
 }
+function maskToken($token, $visible = 3) {
+    if ($token === '') return '';
+    $chars = preg_split('//u', $token, -1, PREG_SPLIT_NO_EMPTY);
+    $len = $chars ? count($chars) : strlen($token);
+    $show = min($visible, max(1, $len - 1));
+    $prefix = $chars ? implode('', array_slice($chars, 0, $show)) : substr($token, 0, $show);
+    return $prefix . str_repeat('*', max(1, $len - $show));
+}
+function maskEmail($email) {
+    $email = trim((string)$email);
+    if ($email === '') return '-';
+    $at = strrpos($email, '@');
+    if ($at === false) return maskToken($email);
+    $local = substr($email, 0, $at);
+    $domain = substr($email, $at + 1);
+    $dot = strrpos($domain, '.');
+    if ($dot === false) {
+        $domainMasked = maskToken($domain);
+    } else {
+        $domainMasked = maskToken(substr($domain, 0, $dot)) . substr($domain, $dot);
+    }
+    return maskToken($local) . '@' . $domainMasked;
+}
+function maskName($name) {
+    $name = trim((string)$name);
+    if ($name === '') return '-';
+    $parts = preg_split('/\s+/u', $name, -1, PREG_SPLIT_NO_EMPTY);
+    return implode(' ', array_map('maskToken', $parts));
+}
 function sortLink($col, $label) {
     global $sort, $order, $dateFrom, $dateTo, $searchEmail, $limit, $logType;
     $newOrder = ($sort === $col && $order === 'desc') ? 'asc' : 'desc';
@@ -267,12 +296,12 @@ function sortLink($col, $label) {
                                         <?= $isSend ? 'Send' : 'Subscribe' ?>
                                     </span>
                                 </td>
-                                <td class="p-3 text-slate-700"><?= htmlspecialchars($entry['email']) ?></td>
+                                <td class="p-3 text-slate-700"><?= htmlspecialchars(maskEmail($entry['email'] ?? '')) ?></td>
                                 <td class="p-3 text-slate-700">
                                     <?php if ($isSend): ?>
-                                        <?= htmlspecialchars($entry['name'] ?? '-') ?>
+                                        <?= htmlspecialchars(maskName($entry['name'] ?? '')) ?>
                                     <?php else: ?>
-                                        <?= htmlspecialchars(($entry['fname'] ?? '') . ' ' . ($entry['lname'] ?? '')) ?>
+                                        <?= htmlspecialchars(maskName(($entry['fname'] ?? '') . ' ' . ($entry['lname'] ?? ''))) ?>
                                     <?php endif; ?>
                                 </td>
                                 <td class="p-3">
@@ -298,8 +327,8 @@ function sortLink($col, $label) {
                                 <td colspan="7">
                                     <div class="px-6 pb-4">
                                         <div class="mb-2"><strong>Type:</strong> <?= $isSend ? 'Resource Send' : 'Newsletter Subscribe' ?></div>
-                                        <div class="mb-2"><strong>Email:</strong> <?= htmlspecialchars($entry['email']) ?></div>
-                                        <div class="mb-2"><strong>Name:</strong> <?= $isSend ? htmlspecialchars($entry['name'] ?? '-') : htmlspecialchars(($entry['fname'] ?? '') . ' ' . ($entry['lname'] ?? '')) ?></div>
+                                        <div class="mb-2"><strong>Email:</strong> <?= htmlspecialchars(maskEmail($entry['email'] ?? '')) ?></div>
+                                        <div class="mb-2"><strong>Name:</strong> <?= $isSend ? htmlspecialchars(maskName($entry['name'] ?? '')) : htmlspecialchars(maskName(($entry['fname'] ?? '') . ' ' . ($entry['lname'] ?? ''))) ?></div>
                                         <?php if (!$isSend): ?>
                                             <div class="mb-2"><strong>Organization:</strong> <?= htmlspecialchars($entry['org'] ?? '-') ?></div>
                                             <div class="mb-2"><strong>Position:</strong> <?= htmlspecialchars($entry['position'] ?? '-') ?></div>
